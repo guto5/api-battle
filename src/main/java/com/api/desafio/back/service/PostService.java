@@ -3,6 +3,8 @@ package com.api.desafio.back.service;
 import com.api.desafio.back.model.Post;
 import com.api.desafio.back.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +17,17 @@ public class PostService {
   private PostRepository postRepository;
 
   // 3.a. POST /post - criar um post
+  // Sempre que este método for chamado, o cache "postCount" será limpo.
+  @CacheEvict(value = "postCount", allEntries = true)
   public Post criarPost(Post post) {
-    // O campo dataHora será preenchido automaticamente pelo @CreationTimestamp
     return postRepository.save(post);
   }
 
   // 3.b. GET /post/count - consultar quantidade de posts
+  // O resultado deste método será armazenado em um cache chamado "postCount"
+  @Cacheable("postCount")
   public long contarPosts() {
+    // A linha abaixo só será executada se o cache não existir.
     return postRepository.count();
   }
 

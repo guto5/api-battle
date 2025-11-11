@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api/post")
 @CrossOrigin("*")
 @Tag(name = "Posts", description = "Endpoints para gerenciamento de posts") // Tag para agrupar os endpoints
 public class PostController {
