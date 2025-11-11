@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15 # Você pode alterar a versão do Postgres se precisar
+    container_name: postgres_db_social
+    # Mapeia a porta 5435 (sua máquina) para a 5432 (container)
+    ports:
+      - "5435:5432"
+    # Variáveis de ambiente para configurar o banco
+    environment:
+      POSTGRES_USER: postgres     # 👈 Troque pelo seu usuário
+      POSTGRES_PASSWORD: postgres   # 👈 Troque pela sua senha
+      POSTGRES_DB: post_db # 👈 Troque pelo nome do banco
+    # Volume para persistir os dados mesmo se o container parar
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  # Define o volume nomeado
+  postgres-data:
+    driver: local
